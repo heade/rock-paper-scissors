@@ -1,7 +1,7 @@
 package com.everymatrix.demo.service;
 
-import com.everymatrix.demo.enums.Choose;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.everymatrix.demo.enums.GameMode;
+import com.everymatrix.demo.enums.Move;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -29,35 +29,42 @@ class StrategyProviderTest {
     }
 
     @Test
-    void givenFairMode_whenGenerate_thenGetRandomMoves() {
-        Flux<Choose> randomMovesFlux = provider.generateFairChoose();
+    void givenFairMode_whenGenerateFairMove_thenGetRandomMoves() {
+        Flux<Move> randomMovesFlux = provider.generateFairMoves();
         StepVerifier.create(randomMovesFlux)
                 .expectNextCount(10)
                 .verifyComplete();
     }
 
     @Test
-    void givenUnFairMode_whenGenerate_thenGetRockMoves() {
-        Flux<Choose> rockMovesFlux = provider.generateUnFairChoose();
+    void givenUnFairMode_whenGenerateUnFairMove_thenGetRockMoves() {
+        Flux<Move> rockMovesFlux = provider.generateUnFairMoves();
         StepVerifier.create(rockMovesFlux)
-                .thenConsumeWhile(Choose.Rock::equals)
+                .thenConsumeWhile(Move.Rock::equals)
                 .verifyComplete();
     }
 
     @Test
-    void givenOnlineMode_whenGenerate_thenGetRandomMoves() throws IOException {
+    void givenOnlineMode_whenGenerateOnlineMove_thenGetRandomMoves() throws IOException {
         //prepare response
         ObjectMapper mapper = new ObjectMapper();
-        List<Choose> randomMoveList = IntStream.range(0, 10).mapToObj(e -> Choose.randomChoose()).collect(Collectors.toList());
+        List<Move> randomMoveList = IntStream.range(0, 10).mapToObj(e -> Move.randomMove()).collect(Collectors.toList());
         String apiCallResponse = mapper.writeValueAsString(randomMoveList);
         //mock response using MockWebServer
         mockWebServer.enqueue(new MockResponse().setBody(apiCallResponse).addHeader("Content-Type", "application/json"));
 
-        Flux<Choose> onlineFlux = provider.generateOnlineChoose();
+        Flux<Move> onlineFlux = provider.generateOnlineMoves();
         StepVerifier.create(onlineFlux)
                 .expectNextCount(10)
                 .verifyComplete();
 
         mockWebServer.shutdown();
+    }
+
+    @Test
+    void givenGameMode_whenGenerateMove_thenGetMoves() {
+        StepVerifier.create(provider.generate(GameMode.unfair))
+                .thenConsumeWhile(Move.Rock::equals)
+                .verifyComplete();
     }
 }

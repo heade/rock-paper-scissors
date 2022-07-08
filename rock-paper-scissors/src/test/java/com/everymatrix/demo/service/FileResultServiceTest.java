@@ -1,7 +1,7 @@
 package com.everymatrix.demo.service;
 
 import com.everymatrix.demo.config.AppProperties;
-import com.everymatrix.demo.enums.Choose;
+import com.everymatrix.demo.enums.Move;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class FileResultServiceTest {
         int secondPlayerScore = 0;
         int drawScore = 10;
 
-        resultService.storeMoves(Choose.Rock, Choose.Rock);
+        resultService.storeMoves(Move.Rock, Move.Rock);
         resultService.storeRoundResult("Draw");
         resultService.storeFinalResult(firstPlayerScore, secondPlayerScore);
 
@@ -48,7 +48,7 @@ class FileResultServiceTest {
 
         String movesRow = bufferedReader.readLine();
         Assertions.assertEquals(String.format("%s move: %s, %s move: %s",
-                firstPlayerName, Choose.Rock, secondPlayerName, Choose.Rock), movesRow);
+                firstPlayerName, Move.Rock, secondPlayerName, Move.Rock), movesRow);
 
         String roundResultRow = bufferedReader.readLine();
         Assertions.assertEquals("Result: Draw", roundResultRow);

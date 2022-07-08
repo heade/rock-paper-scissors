@@ -1,9 +1,7 @@
 package com.everymatrix.demo.service;
 
 import com.everymatrix.demo.config.AppProperties;
-import com.everymatrix.demo.enums.Choose;
-import com.everymatrix.demo.enums.RoundResult;
-import lombok.RequiredArgsConstructor;
+import com.everymatrix.demo.enums.Move;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -27,7 +25,7 @@ public class LogResultService implements ResultService {
     }
 
     @Override
-    public void storeMoves(Choose firstPlayerMove, Choose secondPlayerMove) {
+    public void storeMoves(Move firstPlayerMove, Move secondPlayerMove) {
         log.info("{} move: {}, {} move: {}", firstPlayer, firstPlayerMove, secondPlayer, secondPlayerMove);
     }
 

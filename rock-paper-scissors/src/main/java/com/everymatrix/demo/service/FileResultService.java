@@ -1,15 +1,12 @@
 package com.everymatrix.demo.service;
 
 import com.everymatrix.demo.config.AppProperties;
-import com.everymatrix.demo.enums.Choose;
-import com.everymatrix.demo.enums.RoundResult;
-import lombok.RequiredArgsConstructor;
+import com.everymatrix.demo.enums.Move;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PreDestroy;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -36,7 +33,7 @@ public class FileResultService implements ResultService {
     }
 
     @Override
-    public void storeMoves(Choose firstPlayerMove, Choose secondPlayerMove) {
+    public void storeMoves(Move firstPlayerMove, Move secondPlayerMove) {
         String row = String.format("%s move: %s, %s move: %s", firstPlayer, firstPlayerMove, secondPlayer, secondPlayerMove);
         writeRow(row);
     }

@@ -1,6 +1,6 @@
 package com.everymatrix.gameclient.controller;
 
-import com.everymatrix.gameclient.enums.Choose;
+import com.everymatrix.gameclient.enums.Move;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -20,7 +20,7 @@ class PlayerControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentTypeCompatibleWith(MediaType.TEXT_EVENT_STREAM_VALUE)
-                .expectBodyList(Choose.class)
+                .expectBodyList(Move.class)
                 .hasSize(10);
     }
 
